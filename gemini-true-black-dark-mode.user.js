@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gemini True Black Dark Mode
 // @namespace    https://github.com/zzznu/gemini-true-black-dark-mode
-// @version      1.3.0
+// @version      1.4.0
 // @description  Geminiのレイアウトを崩さずに背景だけを完全な真っ黒にします。
 // @author       zzznu
 // @license      MIT
@@ -57,14 +57,23 @@
     }
 
     /* メニュー・ダイアログ・ツールチップは背景が同じ黒になると
-       背後の画面と同化するため、枠線で分離する。
-       クラス名はGoogleのUI更新で変わるため、変化しにくいARIAロールで指定する */
+       背後の画面と同化するため、輪郭で分離する。
+       border ではなく outline を使うのは、box-sizing の指定によらず
+       レイアウトに一切影響しないため。角丸にも追従する。
+       主軸はGoogleのUI更新で変化しにくいARIAロール。
+       あわせて実DOMで使用を確認したAngular MaterialのMDCパネルも指定する */
     [role="menu"],
     [role="dialog"],
+    [role="alertdialog"],
     [role="listbox"],
     [role="tooltip"],
-    [role="alertdialog"] {
-      border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    .mat-mdc-menu-panel,
+    .mat-mdc-dialog-surface,
+    .mat-mdc-select-panel,
+    .mat-mdc-autocomplete-panel,
+    .mat-mdc-tooltip {
+      outline: 1px solid rgba(255, 255, 255, 0.14) !important;
+      outline-offset: -1px !important;
     }
 
     /* 背景が真っ黒になるとフォーカス位置を見失いやすくなるため、
