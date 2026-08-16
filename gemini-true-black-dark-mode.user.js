@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gemini True Black Dark Mode
 // @namespace    https://github.com/zzznu/gemini-true-black-dark-mode
-// @version      1.5.1
+// @version      1.6.0
 // @description  Geminiのレイアウトを崩さずに背景だけを完全な真っ黒にします。
 // @author       zzznu
 // @license      MIT
@@ -46,20 +46,31 @@
     .conversation-container,
     .input-area-container,
     input-container,
-    input-area-v2 {
+    input-area-v2,
+    bard-sidenav,
+    bard-sidenav-container,
+    bard-sidenav-content,
+    side-navigation-v2 {
       background: #000000 !important;
       background-color: #000000 !important;
     }
 
-    /* 全面が真っ黒になると要素の区切りが分からなくなるため、
-       構造的なコンテナにだけ薄い境界線を残す。
-       全称セレクタ(*)に !important を当てるとフォーカスリング・エラー表示・
-       選択状態の枠まで同じ色に潰れ、さらにDOMが更新されるたびに全要素へ
-       照合が走るため使わない */
+    /* 会話エリアと入力エリアの区切り線を消す。
+       ここに線が入ると真っ黒の中で灰色の帯として浮くため、
+       境界は付けずに完全に地続きにする */
     chat-window,
     .conversation-container,
-    .input-area-container {
-      border-color: rgba(255, 255, 255, 0.08) !important;
+    .input-area-container,
+    input-container {
+      border-color: transparent !important;
+      box-shadow: none !important;
+    }
+
+    /* 入力欄だけは輪郭がないと文字を打つ位置が分からなくなるため、
+       角丸に沿った細い輪郭を残す。濃さはここの alpha 値で調整する */
+    input-area-v2 {
+      outline: 1px solid rgba(255, 255, 255, 0.14) !important;
+      outline-offset: -1px !important;
     }
 
     /* メニュー・ダイアログ・ツールチップは背景が同じ黒になると
