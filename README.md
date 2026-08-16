@@ -27,7 +27,19 @@ https://raw.githubusercontent.com/zzznu/gemini-true-black-dark-mode/main/gemini-
 
 ## 注意
 
-Geminiの内部クラス名・要素名を対象にしているため、Google側のUI更新で一部のセレクタが効かなくなることがあります。背景に黒くならない箇所が出た場合は、開発者ツールで該当要素のクラス名を確認して追加してください。
+Geminiの内部クラス名・要素名を対象にしているため、Google側のUI更新で一部のセレクタが効かなくなることがあります。特に `input-area-v2` のようにバージョン番号を含む要素名は差し替えられる可能性があります。
+
+黒くならない箇所が出た場合、Geminiは `--gm3-sys-color-*`（Google Material 3）と `--bard-color-*`（Gemini独自）の2系統の色変数を併用している点に注意してください。前者は変数の上書きで一括して効きますが、入力欄まわりなど後者から色を取っている箇所は要素を個別に指定する必要があります。
+
+対象の要素は、開発者ツールのコンソールで入力欄から祖先を遡ると特定できます。
+
+```js
+let el = document.querySelector('.ql-editor');
+while (el && el !== document.documentElement) {
+  console.log(getComputedStyle(el).backgroundColor, el.tagName.toLowerCase(), el.className);
+  el = el.parentElement;
+}
+```
 
 ## License
 
