@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gemini True Black Dark Mode
 // @namespace    https://github.com/zzznu/gemini-true-black-dark-mode
-// @version      1.8.0
+// @version      1.0.0
 // @description  Geminiのレイアウトを崩さずに背景だけを完全な真っ黒にします。
 // @author       zzznu
 // @license      MIT
