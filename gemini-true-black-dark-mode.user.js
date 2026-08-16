@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gemini True Black Dark Mode
 // @namespace    https://github.com/zzznu/gemini-true-black-dark-mode
-// @version      1.5.0
+// @version      1.5.1
 // @description  Geminiのレイアウトを崩さずに背景だけを完全な真っ黒にします。
 // @author       zzznu
 // @license      MIT
@@ -49,13 +49,6 @@
     input-area-v2 {
       background: #000000 !important;
       background-color: #000000 !important;
-    }
-
-    /* 入力欄を真っ黒にすると輪郭まで消えて入力位置が分からなくなるため、
-       角丸に沿った細い輪郭だけ残す。完全に溶け込ませたい場合はこの規則を削る */
-    input-area-v2 {
-      outline: 1px solid rgba(255, 255, 255, 0.14) !important;
-      outline-offset: -1px !important;
     }
 
     /* 全面が真っ黒になると要素の区切りが分からなくなるため、
