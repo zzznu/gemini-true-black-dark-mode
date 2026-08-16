@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gemini True Black Dark Mode
 // @namespace    https://github.com/zzznu/gemini-true-black-dark-mode
-// @version      1.6.0
+// @version      1.7.0
 // @description  Geminiのレイアウトを崩さずに背景だけを完全な真っ黒にします。
 // @author       zzznu
 // @license      MIT
@@ -71,6 +71,51 @@
     input-area-v2 {
       outline: 1px solid rgba(255, 255, 255, 0.14) !important;
       outline-offset: -1px !important;
+    }
+
+    /* 会話ログの下端とサイドバーの上下端に、内容を溶かして隠すための
+       グラデーションの覆いが掛かっている（Geminiはこれを input-gradient と
+       呼んでいる）。真っ黒の中では灰色のぼやけとして見えるため取り除く。
+       覆いは要素本体ではなく擬似要素に置かれている場合があるので
+       ::before / ::after も対象にする。
+       グラデーションが背景ではなくマスクで実装されている場合に備え、
+       mask-image も併せて解除する */
+    input-container,
+    input-container::before,
+    input-container::after,
+    .overflow-container,
+    .overflow-container::before,
+    .overflow-container::after,
+    side-navigation-content,
+    side-navigation-content::before,
+    side-navigation-content::after,
+    .sidenav-with-history-container,
+    .sidenav-with-history-container::before,
+    .sidenav-with-history-container::after,
+    chat-window::before,
+    chat-window::after,
+    .conversation-container::before,
+    .conversation-container::after {
+      background-image: none !important;
+      mask-image: none !important;
+      -webkit-mask-image: none !important;
+    }
+
+    /* スクロールバーの溝を消してつまみだけ見えるようにする。
+       scrollbar-color は継承するプロパティなので :root に一度指定すれば
+       内側のスクロール領域すべてに伝わる。
+       幅は変えない（変えるとレイアウトが動くため）。
+       2行目以降はWebKit系ブラウザ向けの同等指定 */
+    :root {
+      scrollbar-color: rgba(255, 255, 255, 0.25) transparent !important;
+    }
+    ::-webkit-scrollbar-track,
+    ::-webkit-scrollbar-corner {
+      background: transparent !important;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.25) !important;
+      border-radius: 8px !important;
     }
 
     /* メニュー・ダイアログ・ツールチップは背景が同じ黒になると
