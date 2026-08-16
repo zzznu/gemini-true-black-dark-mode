@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gemini True Black Dark Mode
 // @namespace    https://github.com/zzznu/gemini-true-black-dark-mode
-// @version      1.7.0
+// @version      1.8.0
 // @description  Geminiのレイアウトを崩さずに背景だけを完全な真っ黒にします。
 // @author       zzznu
 // @license      MIT
@@ -38,15 +38,14 @@
     /* 変数を経由せず直接背景色を持っている要素を個別に真っ黒化する。
        Geminiは --gm3-sys-color-* とは別に --bard-color-* という独自の変数群を
        持っており、入力まわりの色はそちらから来ているため、上の変数上書きだけでは
-       黒くならない。実DOMで測った色は input-area-v2 が #1e1f20（角丸32pxのピル）、
-       input-container が #0f0f0f（その背後の帯）。
+       黒くならない。実DOMで測った色は input-container が #0f0f0f（入力欄の背後の帯）。
+       入力欄そのもの（input-area-v2）はここには含めず、下で灰色を指定している。
        ここのセレクタはすべてGeminiの実DOMに存在することを確認済み */
     html, body, main,
     chat-window,
     .conversation-container,
     .input-area-container,
     input-container,
-    input-area-v2,
     bard-sidenav,
     bard-sidenav-container,
     bard-sidenav-content,
@@ -66,9 +65,14 @@
       box-shadow: none !important;
     }
 
-    /* 入力欄だけは輪郭がないと文字を打つ位置が分からなくなるため、
-       角丸に沿った細い輪郭を残す。濃さはここの alpha 値で調整する */
+    /* 入力欄だけは背景を灰色のまま残す。周囲が真っ黒なので、
+       文字を打つ場所がひと目で分かるようにするための唯一の色付き要素になる。
+       #1e1f20 はGeminiが元々この要素に使っていた色。
+       濃さを変えたい場合はこの値を書き換える（明るくするなら #26282a 前後）。
+       あわせて角丸に沿った細い輪郭も残している。不要ならoutlineの2行を削る */
     input-area-v2 {
+      background: #1e1f20 !important;
+      background-color: #1e1f20 !important;
       outline: 1px solid rgba(255, 255, 255, 0.14) !important;
       outline-offset: -1px !important;
     }
