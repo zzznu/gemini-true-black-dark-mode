@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gemini True Black Dark Mode
 // @namespace    https://github.com/zzznu/gemini-true-black-dark-mode
-// @version      1.4.0
+// @version      1.5.0
 // @description  Geminiのレイアウトを崩さずに背景だけを完全な真っ黒にします。
 // @author       zzznu
 // @license      MIT
@@ -36,13 +36,26 @@
     }
 
     /* 変数を経由せず直接背景色を持っている要素を個別に真っ黒化する。
-       ここのセレクタはGeminiの実DOMに存在することを確認済み */
+       Geminiは --gm3-sys-color-* とは別に --bard-color-* という独自の変数群を
+       持っており、入力まわりの色はそちらから来ているため、上の変数上書きだけでは
+       黒くならない。実DOMで測った色は input-area-v2 が #1e1f20（角丸32pxのピル）、
+       input-container が #0f0f0f（その背後の帯）。
+       ここのセレクタはすべてGeminiの実DOMに存在することを確認済み */
     html, body, main,
     chat-window,
     .conversation-container,
-    .input-area-container {
+    .input-area-container,
+    input-container,
+    input-area-v2 {
       background: #000000 !important;
       background-color: #000000 !important;
+    }
+
+    /* 入力欄を真っ黒にすると輪郭まで消えて入力位置が分からなくなるため、
+       角丸に沿った細い輪郭だけ残す。完全に溶け込ませたい場合はこの規則を削る */
+    input-area-v2 {
+      outline: 1px solid rgba(255, 255, 255, 0.14) !important;
+      outline-offset: -1px !important;
     }
 
     /* 全面が真っ黒になると要素の区切りが分からなくなるため、
